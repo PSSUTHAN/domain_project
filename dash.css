@@ -1,0 +1,127 @@
+body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    header {
+      background: #1f2937;
+      color: #fff;
+      padding: 1rem 0;
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      margin: auto;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #93c5fd;
+    }
+
+    .logout-btn {
+      background: #ef4444;
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-left: 1rem;
+    }
+
+    main {
+      width: 90%;
+      margin: 2rem auto;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: #2563eb;
+      margin-bottom: 0.5rem;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .pending {
+      background: #fde68a;
+      color: #92400e;
+    }
+
+    .in-progress {
+      background: #bfdbfe;
+      color: #1e3a8a;
+    }
+
+    .completed {
+      background: #bbf7d0;
+      color: #065f46;
+    }
+
+    .card p {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .update-btn {
+      margin-top: 1rem;
+      display: inline-block;
+      background: #2563eb;
+      color: #fff;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .update-btn:hover {
+      background: #1e40af;
+    }
