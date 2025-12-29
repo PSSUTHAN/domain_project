@@ -9,6 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(quoteForm);
             const data = Object.fromEntries(formData.entries());
 
+            // add metadata for storage and dashboard association
+            data.id = Date.now();
+            data.submittedAt = new Date().toISOString();
+            data.clientUser = (data.email || '').split('@')[0];
+            data.status = 'pending';
+
+            // persist to localStorage so dashboards can read it
+            try {
+                const existing = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+                existing.unshift(data);
+                localStorage.setItem('quoteRequests', JSON.stringify(existing));
+            } catch (err) {
+                console.error('Failed to save quote request', err);
+            }
+
             console.log('Quote Request Submitted:', data);
 
             // 2. FORM VALIDATION & FEEDBACK
@@ -26,16 +41,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // 3. Clear the form for the next user
             quoteForm.reset();
 
-            // 4. (FUTURE INTEGRATION)
-            // In a real deployment (MVP stage - Week 11), this is where you would
-            // use the MERN stack or WordPress backend to:
-            // a) Send the data to a server API endpoint.
-            // b) Trigger an email notification to the contractor.
-            // c) Send event data to Google Analytics (SEO & analytics tools) [cite: 75]
+            // 4. Notify other tabs (best-effort)
+            try { window.dispatchEvent(new Event('storage')); } catch (e) {}
+
+            // 5. (FUTURE INTEGRATION)
+            // In a real deployment, replace storage with a network POST:
+            // fetch('/api/quotes', { method: 'POST', body: JSON.stringify(data) })
         });
     }
 
-    // 5. SIMPLE MOBILE NAV TOGGLE (Optional, if full nav is implemented)
+    // 6. SIMPLE MOBILE NAV TOGGLE (Optional, if full nav is implemented)
     // For this basic MVP, the navigation is hidden on mobile devices (see CSS)
     // but a full solution would require a mobile hamburger menu icon.
 });

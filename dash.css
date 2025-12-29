@@ -1,3 +1,10 @@
+:root {
+    --primary-color: #004d99; /* Deep Blue - Professionalism */
+    --accent-color: #ff9900; /* Orange/Yellow - Attention/CTA */
+    --text-color: #333;
+    --bg-light: #f4f4f4;
+}
+
 body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
@@ -37,7 +44,7 @@ body {
     }
 
     .logout-btn {
-      background: #ef4444;
+      background: var(--accent-color);
       border: none;
       color: #fff;
       padding: 0.5rem 1rem;

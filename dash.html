@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contractor Dashboard | Contractor Pro</title>
   <meta name="description" content="Manage client projects, view assigned work, and update progress. Contractor Pro dashboard for engineers and site managers.">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dash.css">
 
 </head>
 <body>
@@ -25,33 +25,40 @@
   <main>
     <h1>Welcome, <span id="contractorName">Engineer</span> 👷‍♂️</h1>
 
-    <div class="dashboard-grid">
-
-      <div class="card">
-        <h3>Office Renovation</h3>
-        <span class="status in-progress">In Progress</span>
-        <p>Location: Chennai</p>
-        <p>Deadline: Nov 28, 2025</p>
-        <!-- <a href="#" class="update-btn">Update Status</a> -->
+    <section id="requestsSection">
+      <h2>Quote Requests</h2>
+      <div id="requestsList" class="dashboard-grid">
+        <div class="card"><p>Loading requests...</p></div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Luxury Home Construction</h3>
-        <span class="status pending">Pending</span>
-        <p>Location: Coimbatore</p>
-        <p>Deadline: Dec 15, 2025</p>
-        <!-- <a href="#" class="update-btn">Accept Project</a> -->
+    <section id="projectsSection">
+      <h2>Your Projects</h2>
+      <div class="dashboard-grid">
+
+        <div class="card">
+          <h3>Office Renovation</h3>
+          <span class="status in-progress">In Progress</span>
+          <p>Location: Chennai</p>
+          <p>Deadline: Nov 28, 2025</p>
+        </div>
+
+        <div class="card">
+          <h3>Luxury Home Construction</h3>
+          <span class="status pending">Pending</span>
+          <p>Location: Coimbatore</p>
+          <p>Deadline: Dec 15, 2025</p>
+        </div>
+
+        <div class="card">
+          <h3>Foundation Repair</h3>
+          <span class="status completed">Completed</span>
+          <p>Location: Madurai</p>
+          <p>Delivered: Oct 2025</p>
+        </div>
+
       </div>
-
-      <div class="card">
-        <h3>Foundation Repair</h3>
-        <span class="status completed">Completed</span>
-        <p>Location: Madurai</p>
-        <p>Delivered: Oct 2025</p>
-        <!-- <a href="#" class="update-btn">View Report</a> -->
-      </div>
-
-    </div>
+    </section>
   </main>
 
   <footer>

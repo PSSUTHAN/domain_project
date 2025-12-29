@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Dashboard | Contractor Pro</title>
+  <meta name="description" content="Client dashboard to view submitted quotes and messages from Contractor Pro.">
+  <link rel="stylesheet" href="client.css">
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="logo">Contractor Pro</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="#">My Requests</a>
+        <a href="#">Support</a>
+        <button class="logout-btn" id="clientLogoutBtn">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Welcome, <span id="clientName">Client</span> 🙋‍♀️</h1>
+
+    <section id="clientRequestsSection">
+      <h2>Your Quote Requests</h2>
+      <div id="clientRequestsList" class="dashboard-grid">
+        <div class="card"><p>Loading your requests...</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Contractor Pro. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="client_dash.js"></script>
+</body>
+</html>
