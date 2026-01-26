@@ -50,7 +50,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const supportForm = document.getElementById('supportForm');
+
+    if (supportForm) {
+        supportForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop the default form submission
+
+            // 1. COLLECT DATA (Simulation for MVP)
+            const formData = new FormData(supportForm);
+            const data = Object.fromEntries(formData.entries());
+
+            // add metadata
+            data.id = Date.now();
+            data.submittedAt = new Date().toISOString();
+            data.type = 'support';
+
+            // persist to localStorage
+            try {
+                const existing = JSON.parse(localStorage.getItem('supportRequests') || '[]');
+                existing.unshift(data);
+                localStorage.setItem('supportRequests', JSON.stringify(existing));
+            } catch (err) {
+                console.error('Failed to save support request', err);
+            }
+
+            console.log('Support Request Submitted:', data);
+
+            // 2. FORM VALIDATION & FEEDBACK
+            const successMessage = document.createElement('p');
+            successMessage.className = 'success-message';
+            successMessage.textContent = 'Thank you! Your message has been sent successfully. We will respond within 24 hours.';
+            successMessage.style.color = 'green';
+            successMessage.style.marginTop = '15px';
+
+            // Check if a success message already exists to prevent duplicates
+            if (!supportForm.querySelector('.success-message')) {
+                supportForm.appendChild(successMessage);
+            }
+
+            // 3. Clear the form
+            supportForm.reset();
+
+            // 4. (FUTURE INTEGRATION)
+            // fetch('/api/support', { method: 'POST', body: JSON.stringify(data) })
+        });
+    }
+
     // 6. SIMPLE MOBILE NAV TOGGLE (Optional, if full nav is implemented)
     // For this basic MVP, the navigation is hidden on mobile devices (see CSS)
     // but a full solution would require a mobile hamburger menu icon.
-});

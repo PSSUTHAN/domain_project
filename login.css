@@ -107,3 +107,54 @@ body {
         .login-box a:hover {
             text-decoration: underline;
         }
+   footer {
+    background: var(--text-color);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9em;
+
+}
+
+footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+}     
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+            nav {
+                margin-top: 10px;
+            }
+            nav a {
+                margin-left: 0;
+                display: block;
+                padding: 5px 0;
+            }
+            main {
+                height: auto;
+                padding: 20px 0;
+            }
+            .login-box {
+                padding: 2rem;
+                margin: 20px auto;
+            }
+            .login-box h2 {
+                font-size: 1.5rem;
+            }
+            .login-box input {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            .cta-primary {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }

@@ -251,19 +251,125 @@ footer {
     text-align: center;
     padding: 20px 0;
     font-size: 0.9em;
+
+}
+
+footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+/* SUPPORT PAGE STYLES */
+.support-hero {
+    background: linear-gradient(rgba(0,77,153,0.8), rgba(0,77,153,0.8)), url('hero-bg.jpg') no-repeat center center/cover;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.support-content {
+    padding: 60px 0;
+    background: var(--bg-light);
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.support-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.support-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.support-card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.support-card li {
+    margin-bottom: 10px;
+}
+
+.support-card details {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.support-card summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.contact-form-section {
+    background: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.contact-form-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+}
+
+#supportForm {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--bg-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+#supportForm input, #supportForm select, #supportForm textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+#supportForm textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+#supportForm select {
+    cursor: pointer;
 }
 
 /* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
-    nav {
-        display: none; /* Hide standard nav on small screens */
-    }
     header .container {
         flex-direction: column;
         text-align: center;
     }
     .logo {
         margin-bottom: 10px;
+    }
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    nav a {
+        margin-left: 0;
+        padding: 5px 0;
     }
     .hero-content h1 {
         font-size: 2em;
@@ -274,5 +380,65 @@ footer {
     .cta-primary {
         width: 100%;
         box-sizing: border-box;
+    }
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+    #quoteForm {
+        padding: 20px;
+    }
+    #quoteForm input, #quoteForm textarea {
+        font-size: 0.9em;
+    }
+    .support-grid {
+        grid-template-columns: 1fr;
+    }
+    .support-card {
+        padding: 20px;
+    }
+    #supportForm {
+        padding: 20px;
+        margin: 0 20px;
+    }
+    #supportForm input, #supportForm select, #supportForm textarea {
+        font-size: 0.9em;
+    }
+}
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .logo {
+        margin-bottom: 10px;
+    }
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    nav a {
+        margin-left: 0;
+        padding: 5px 0;
+    }
+    .hero-content h1 {
+        font-size: 2em;
+    }
+    .signal-item {
+        flex-basis: 100%;
+    }
+    .cta-primary {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+    #quoteForm {
+        padding: 20px;
+    }
+    #quoteForm input, #quoteForm textarea {
+        font-size: 0.9em;
     }
 }

@@ -11,6 +11,63 @@ if (logoutBtn) {
   });
 }
 
+// Pre-fill form
+const clientQuoteForm = document.getElementById('clientQuoteForm');
+if (clientQuoteForm) {
+  const nameField = clientQuoteForm.querySelector('input[name="name"]');
+  if (nameField) nameField.value = clientName;
+}
+
+// Handle form submission
+if (clientQuoteForm) {
+  clientQuoteForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(clientQuoteForm);
+    const data = Object.fromEntries(formData.entries());
+
+    // add metadata
+    data.id = Date.now();
+    data.submittedAt = new Date().toISOString();
+    data.clientUser = clientName;
+    data.status = 'pending';
+
+    // persist to localStorage
+    try {
+      const existing = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+      existing.unshift(data);
+      localStorage.setItem('quoteRequests', JSON.stringify(existing));
+    } catch (err) {
+      console.error('Failed to save quote request', err);
+    }
+
+    console.log('Client Quote Request Submitted:', data);
+
+    // Show success message
+    const successMessage = document.createElement('p');
+    successMessage.className = 'success-message';
+    successMessage.textContent = 'Thank you! Your quote request has been sent successfully. We will contact you shortly.';
+    successMessage.style.color = 'green';
+    successMessage.style.marginTop = '15px';
+
+    if (!clientQuoteForm.querySelector('.success-message')) {
+      clientQuoteForm.appendChild(successMessage);
+    }
+
+    // Reset form
+    clientQuoteForm.reset();
+    // Re-set name
+    const nameField = clientQuoteForm.querySelector('input[name="name"]');
+    if (nameField) nameField.value = clientName;
+
+    // Re-render requests
+    renderClientRequests();
+
+    // Notify other tabs
+    try { window.dispatchEvent(new Event('storage')); } catch (e) {}
+  });
+}
+
 function getRequests(){
   try { return JSON.parse(localStorage.getItem('quoteRequests') || '[]'); }
   catch(e){ return []; }

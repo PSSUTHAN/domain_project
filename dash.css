@@ -132,3 +132,61 @@ body {
     .update-btn:hover {
       background: #1e40af;
     }
+
+    footer {
+    background: var(--text-color);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9em;
+
+}
+
+footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+    /* MOBILE RESPONSIVE */
+    @media (max-width: 768px) {
+        header .container {
+            flex-direction: column;
+            text-align: center;
+        }
+        .logo {
+            margin-bottom: 10px;
+        }
+        nav {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        nav a {
+            margin-left: 0;
+        }
+        .logout-btn {
+            margin-left: 0;
+        }
+        main {
+            width: 95%;
+            margin: 1rem auto;
+        }
+        h1 {
+            font-size: 1.5rem;
+        }
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        .card {
+            padding: 1rem;
+        }
+        .card h3 {
+            font-size: 1rem;
+        }
+        .status {
+            font-size: 0.8rem;
+        }
+    }
