@@ -95,7 +95,4 @@ document.addEventListener('DOMContentLoaded', () => {
             // fetch('/api/support', { method: 'POST', body: JSON.stringify(data) })
         });
     }
-
-    // 6. SIMPLE MOBILE NAV TOGGLE (Optional, if full nav is implemented)
-    // For this basic MVP, the navigation is hidden on mobile devices (see CSS)
-    // but a full solution would require a mobile hamburger menu icon.
+});
