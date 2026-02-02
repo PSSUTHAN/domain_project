@@ -39,8 +39,12 @@
       <h2>Submit a New Quote Request</h2>
       <form id="clientQuoteForm">
         <input type="text" name="name" placeholder="Your Name" required>
-        <input type="tel" name="phone" placeholder="Phone Number" required>
-        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="tel" name="phone" placeholder="Phone Number" required pattern="\d{10}" maxlength="10" inputmode="numeric" title="Enter a 10-digit phone number">
+        <input type="email" name="email" placeholder="Email Address" required> 
+        <input type="text" name="address" placeholder="Project Address" required>
+        <input type="text" name="project_type" placeholder="Project Type (e.g., Apartment, House)" required>
+        <input type="number" name="area_size" placeholder="Area Size (in sq ft)" min="1" step="1" required>
+        <input type="number" name="budget" placeholder="Estimated Budget (Rs.)" min="1" step="1" required>
         <textarea name="project_details" placeholder="Briefly describe your project" required></textarea>
         <button type="submit" class="cta-primary">Submit Request</button>
       </form>
