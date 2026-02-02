@@ -16,8 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const validEmail = "engineer@contractorpro.com";
       const validPassword = "admin123";
       if (email === validEmail && password === validPassword) {
-        alert("Login successful!");
+        const userData = {
+          username: email.split("@")[0],
+          name: email.split("@")[0],
+          email: email,
+          role: 'engineer'
+        };
         localStorage.setItem("contractorName", email.split("@")[0]);
+        localStorage.setItem("currentUser", JSON.stringify(userData));
         window.location.href = "dash.html";
       } else {
         alert("Invalid contractor credentials. Please try again.");
@@ -27,8 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const validClientEmail = "client@contractorpro.com";
       const validClientPassword = "client123";
       if (email === validClientEmail && password === validClientPassword) {
-        alert("Client login successful!");
+        const userData = {
+          username: email.split("@")[0],
+          name: email.split("@")[0],
+          email: email,
+          role: 'client'
+        };
         localStorage.setItem("clientName", email.split("@")[0]);
+        localStorage.setItem("currentUser", JSON.stringify(userData));
         window.location.href = "client_dash.html";
       } else {
         alert("Invalid client credentials. Please try again.");

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - BuildHub</title>
+    <link rel="stylesheet" href="community.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">BuildHub Community</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="community.html" class="active">Community</a></li>
+                <li><a href="dash.html">Dashboard</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="login.html" id="authLink">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Search posts, tags, or users...">
+            <button class="search-btn" id="searchBtn">Search</button>
+        </div>
+    </div>
+
+    <div class="community-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="profile-avatar" id="userAvatar">👤</div>
+                <h3 id="userName">Guest User</h3>
+                <p class="user-type" id="userType">Please log in</p>
+                <button class="view-saved-btn" id="viewSavedBtn">📑 Saved Posts (<span id="savedCount">0</span>)</button>
+            </div>
+            
+            <div class="filter-section">
+                <h4>Filter Posts</h4>
+                <div class="filter-options">
+                    <button class="filter-btn active" data-filter="all">All Posts</button>
+                    <button class="filter-btn" data-filter="engineer">Engineers</button>
+                    <button class="filter-btn" data-filter="client">Clients</button>
+                    <button class="filter-btn" data-filter="project">Projects</button>
+                    <button class="filter-btn" data-filter="discussion">Discussions</button>
+                </div>
+            </div>
+
+            <div class="trending-section">
+                <h4>Trending Topics</h4>
+                <div class="trending-tags">
+                    <span class="tag">#Architecture</span>
+                    <span class="tag">#Construction</span>
+                    <span class="tag">#Design</span>
+                    <span class="tag">#Renovation</span>
+                    <span class="tag">#Commercial</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Create Post Section -->
+            <div class="create-post-card" id="createPostSection">
+                <h3>Share Your Work</h3>
+                <div class="create-post-form">
+                    <textarea id="postContent" placeholder="What's on your mind? Share your project updates, ideas, or questions..."></textarea>
+                    
+                    <div class="post-options">
+                        <div class="post-category">
+                            <label>Category:</label>
+                            <select id="postCategory">
+                                <option value="project">Project Showcase</option>
+                                <option value="discussion">Discussion</option>
+                                <option value="question">Question</option>
+                                <option value="update">Update</option>
+                            </select>
+                        </div>
+                        
+                        <div class="post-tags">
+                            <input type="text" id="postTags" placeholder="Add tags (comma separated)">
+                        </div>
+                    </div>
+
+                    <div class="image-upload">
+                        <label for="imageUpload" class="upload-btn">📷 Add Images</label>
+                        <input type="file" id="imageUpload" accept="image/*" multiple style="display: none;">
+                        <div id="imagePreview" class="image-preview"></div>
+                    </div>
+
+                    <div class="post-actions">
+                        <button class="btn-secondary" id="cancelPost">Cancel</button>
+                        <button class="btn-primary" id="submitPost">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Posts Feed -->
+            <div class="posts-feed" id="postsFeed">
+                <!-- Posts will be dynamically loaded here -->
+            </div>
+
+            <div class="load-more">
+                <button class="btn-secondary" id="loadMoreBtn">Load More Posts</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="community.js"></script>
+</body>
+</html>

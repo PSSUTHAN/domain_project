@@ -25,6 +25,8 @@ body {
     margin: 0 auto;
 }
 
+   
+
 /* Typography and Headings */
 h1, h2, h3 {
     margin-bottom: 0.5em;
@@ -352,6 +354,16 @@ footer a {
     cursor: pointer;
 }
 
+#sup-logoutBtn {
+      background-color: #ff9900;
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-left: 1rem;
+    }
 /* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
     header .container {
