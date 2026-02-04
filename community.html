@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community - BuildHub</title>
     <link rel="stylesheet" href="community.css">
+    <link rel="stylesheet" href="chatbot.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-container">
@@ -35,9 +38,10 @@
                 <div class="profile-avatar" id="userAvatar">👤</div>
                 <h3 id="userName">Guest User</h3>
                 <p class="user-type" id="userType">Please log in</p>
-                <button class="view-saved-btn" id="viewSavedBtn">📑 Saved Posts (<span id="savedCount">0</span>)</button>
+                <button class="view-saved-btn" id="viewSavedBtn">📑 Saved Posts (<span
+                        id="savedCount">0</span>)</button>
             </div>
-            
+
             <div class="filter-section">
                 <h4>Filter Posts</h4>
                 <div class="filter-options">
@@ -67,8 +71,9 @@
             <div class="create-post-card" id="createPostSection">
                 <h3>Share Your Work</h3>
                 <div class="create-post-form">
-                    <textarea id="postContent" placeholder="What's on your mind? Share your project updates, ideas, or questions..."></textarea>
-                    
+                    <textarea id="postContent"
+                        placeholder="What's on your mind? Share your project updates, ideas, or questions..."></textarea>
+
                     <div class="post-options">
                         <div class="post-category">
                             <label>Category:</label>
@@ -79,7 +84,7 @@
                                 <option value="update">Update</option>
                             </select>
                         </div>
-                        
+
                         <div class="post-tags">
                             <input type="text" id="postTags" placeholder="Add tags (comma separated)">
                         </div>
@@ -110,5 +115,7 @@
     </div>
 
     <script src="community.js"></script>
+    <script src="chatbot.js"></script>
 </body>
+
 </html>

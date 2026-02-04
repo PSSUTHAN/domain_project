@@ -1,0 +1,8 @@
+*.pyc
+__pycache__/
+.env
+chroma_db/
+venv/
+.vscode/
+.idea/
+*.log
