@@ -1,13 +1,25 @@
 """
-Simplified data ingestion script for RAG chatbot using Gemini API.
-This script creates documents from website content without embeddings.
+Data ingestion script for RAG chatbot using Gemini API.
+Extracts content from HTML files and generates vector embeddings.
 """
 
 import os
 import json
 from pathlib import Path
 from bs4 import BeautifulSoup
+import google.generativeai as genai
+from dotenv import load_dotenv
+import time
 
+# Load environment variables
+load_dotenv()
+
+# Configure Gemini API
+api_key = os.getenv("GEMINI_API_KEY")
+if api_key:
+    genai.configure(api_key=api_key)
+else:
+    print("WARNING: GEMINI_API_KEY not found. Embeddings will not be generated.")
 
 def extract_text_from_html(html_path):
     """Extract clean text from HTML file."""
@@ -28,6 +40,23 @@ def extract_text_from_html(html_path):
     
     return text
 
+def get_embedding(text):
+    """Get embedding for a piece of text using Gemini's embedding model."""
+    if not api_key:
+        return None
+        
+    try:
+        # Add delay to avoid rate limiting
+        time.sleep(0.5)
+        result = genai.embed_content(
+            model="models/text-embedding-004",
+            content=text,
+            task_type="retrieval_document"
+        )
+        return result['embedding']
+    except Exception as e:
+        print(f"Error getting embedding: {e}")
+        return None
 
 def create_knowledge_base():
     """Create knowledge base from website HTML files."""
@@ -57,9 +86,18 @@ def create_knowledge_base():
         "register.html": {
             "title": "Register - Engineers Veedu",
             "description": "User registration page"
+        },
+        "dash.html": {
+            "title": "Contractor Dashboard",
+            "description": "Dashboard for engineers and contractors"
+        },
+        "client_dash.html": {
+            "title": "Client Dashboard",
+            "description": "Dashboard for clients to manage requests"
         }
     }
     
+    print("Extracting content from HTML files...")
     for html_file in html_files:
         try:
             text = extract_text_from_html(html_file)
@@ -76,9 +114,9 @@ def create_knowledge_base():
                 "description": metadata["description"],
                 "content": text
             })
-            print(f"Processed {filename}")
+            print(f"  Processed {filename}")
         except Exception as e:
-            print(f"Error processing {html_file}: {e}")
+            print(f"  Error processing {html_file}: {e}")
     
     # Add custom knowledge
     custom_knowledge = [
@@ -124,8 +162,31 @@ def create_knowledge_base():
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(knowledge_base, f, indent=2, ensure_ascii=False)
     
-    print(f"\nKnowledge base created successfully at {output_path}")
+    print(f"\n✅ Knowledge base created at {output_path}")
     print(f"Total documents: {len(knowledge_base)}")
+    
+    # Generate embeddings
+    if api_key:
+        print("\nGenerating embeddings...")
+        document_embeddings = []
+        
+        for i, doc in enumerate(knowledge_base):
+            text = f"{doc['title']}: {doc['content']}"
+            embedding = get_embedding(text)
+            
+            if embedding:
+                document_embeddings.append({
+                    'index': i,
+                    'embedding': embedding
+                })
+            print(f"  Embedded {i+1}/{len(knowledge_base)}")
+        
+        # Save embeddings
+        embeddings_path = os.path.join(os.path.dirname(__file__), "embeddings.json")
+        with open(embeddings_path, 'w', encoding='utf-8') as f:
+            json.dump(document_embeddings, f)
+        
+        print(f"✅ Saved {len(document_embeddings)} embeddings to {embeddings_path}")
     
     return knowledge_base
 

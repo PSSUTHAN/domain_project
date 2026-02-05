@@ -5,10 +5,27 @@
 
 class Chatbot {
     constructor() {
-        // Use the current page's origin to avoid CORS issues
-        this.apiUrl = window.location.origin;
+        // Determine API URL based on current environment
+        this.apiUrl = this.getApiUrl();
         this.isOpen = false;
         this.init();
+    }
+
+    getApiUrl() {
+        const origin = window.location.origin;
+
+        // If running smoothly from the Flask server (port 5000)
+        if (window.location.port === '5000') {
+            return origin;
+        }
+
+        // If development (Live Server, file://, etc.), assume default Flask port
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') {
+            return 'http://localhost:5000';
+        }
+
+        // Production fallback
+        return origin;
     }
 
     init() {

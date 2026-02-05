@@ -1,8 +1,41 @@
+# Python
 *.pyc
 __pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Environment
 .env
-chroma_db/
+.env.local
+.env.*.local
 venv/
+env/
+.venv/
+
+# IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Logs
 *.log
+logs/
+
+# Database/Cache
+chroma_db/
+*.db
+*.sqlite3
+embeddings.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build
+dist/
+build/
+*.egg-info/

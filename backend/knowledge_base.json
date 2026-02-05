@@ -1,8 +1,8 @@
 [
   {
     "source": "client_dash.html",
-    "title": "client_dash.html",
-    "description": "Content from client_dash.html",
+    "title": "Client Dashboard",
+    "description": "Dashboard for clients to manage requests",
     "content": "Client Dashboard | Contractor Pro Engineers Veedu Home My Requests Community Support Logout Welcome, Client 🙋‍♀️ Your Quote Requests Loading your requests... Submit a New Quote Request Submit Request © 2025 Engineers Veedu. All rights reserved. | Support"
   },
   {
@@ -13,8 +13,8 @@
   },
   {
     "source": "dash.html",
-    "title": "dash.html",
-    "description": "Content from dash.html",
+    "title": "Contractor Dashboard",
+    "description": "Dashboard for engineers and contractors",
     "content": "Contractor Dashboard | Contractor Pro Engineers Veedu Home Community Support Logout Welcome, Engineer 👷‍♂️ Quote Requests Loading requests... Your Projects Office Renovation In Progress Location: Chennai Deadline: Nov 28, 2025 Luxury Home Construction Pending Location: Coimbatore Deadline: Dec 15, 2025 Foundation Repair Completed Location: Madurai Delivered: Oct 2025 © 2025 Engineers Veedu. All rights reserved. | Support"
   },
   {
