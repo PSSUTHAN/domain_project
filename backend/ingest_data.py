@@ -60,7 +60,7 @@ def get_embedding(text):
 
 def create_knowledge_base():
     """Create knowledge base from website HTML files."""
-    website_dir = Path(__file__).parent.parent
+    website_dir = Path(__file__).parent.parent / "frontend"
     html_files = list(website_dir.glob("*.html"))
     
     knowledge_base = []

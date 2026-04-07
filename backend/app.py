@@ -5,18 +5,46 @@ Enhanced with vector embeddings for semantic search.
 
 import os
 import json
-import numpy as np
+import sqlite3
+import datetime
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import google.generativeai as genai
 from dotenv import load_dotenv
 from sklearn.metrics.pairwise import cosine_similarity
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
+
+# Database Setup
+DB_NAME = "users.db"
+
+def init_db():
+    with sqlite3.connect(DB_NAME) as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                role TEXT DEFAULT 'client',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        # Simple migration for existing DB
+        try:
+            cursor.execute("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'client'")
+        except sqlite3.OperationalError:
+            pass # Column already exists
+        conn.commit()
+    print("DONE: Database initialized")
+
+# Initialize DB on startup
+init_db()
 
 # Configure Gemini API
 api_key = os.getenv("GEMINI_API_KEY")
@@ -36,9 +64,9 @@ def load_knowledge_base():
     try:
         with open(knowledge_base_path, 'r', encoding='utf-8') as f:
             knowledge_base = json.load(f)
-        print(f"✅ Loaded {len(knowledge_base)} documents from knowledge base")
+        print(f"DONE: Loaded {len(knowledge_base)} documents from knowledge base")
     except FileNotFoundError:
-        print("⚠️ WARNING: knowledge_base.json not found. Run ingest_data.py first!")
+        print("WARNING: knowledge_base.json not found. Run ingest_data.py first!")
 
 def load_embeddings():
     """Load pre-computed embeddings if available."""
@@ -46,17 +74,17 @@ def load_embeddings():
     try:
         with open(embeddings_path, 'r', encoding='utf-8') as f:
             document_embeddings = json.load(f)
-        print(f"✅ Loaded {len(document_embeddings)} document embeddings")
+        print(f"DONE: Loaded {len(document_embeddings)} document embeddings")
         return True
     except FileNotFoundError:
-        print("⚠️ Embeddings not found. Will generate on first query...")
+        print("WARNING: Embeddings not found. Will generate on first query...")
         return False
 
 def get_embedding(text):
     """Get embedding for a piece of text using Gemini's embedding model."""
     try:
         result = genai.embed_content(
-            model="models/text-embedding-004",
+            model="models/gemini-embedding-001",
             content=text,
             task_type="retrieval_document"
         )
@@ -85,7 +113,7 @@ def generate_all_embeddings():
     try:
         with open(embeddings_path, 'w', encoding='utf-8') as f:
             json.dump(document_embeddings, f)
-        print(f"✅ Saved {len(document_embeddings)} embeddings")
+        print(f"DONE: Saved {len(document_embeddings)} embeddings")
     except Exception as e:
         print(f"Error saving embeddings: {e}")
 
@@ -104,7 +132,7 @@ def semantic_search(query, top_k=3):
     try:
         # Get query embedding
         query_embedding = genai.embed_content(
-            model="models/text-embedding-004",
+            model="models/gemini-embedding-001",
             content=query,
             task_type="retrieval_query"
         )['embedding']
@@ -188,16 +216,22 @@ Guidelines:
 
 @app.route('/')
 def serve_index():
-    """Serve the main website."""
-    parent_dir = os.path.dirname(os.path.dirname(__file__))
-    return send_from_directory(parent_dir, 'index.html')
+    """Serve the main website from the React build folder."""
+    dist_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'frontend', 'dist')
+    if os.path.exists(os.path.join(dist_dir, 'index.html')):
+        return send_from_directory(dist_dir, 'index.html')
+    else:
+        return jsonify({
+            "status": "pending",
+            "message": "Frontend not built yet. Run 'npm run build' in the frontend directory."
+        })
 
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    """Serve static files (CSS, JS, images, etc.)."""
-    parent_dir = os.path.dirname(os.path.dirname(__file__))
-    return send_from_directory(parent_dir, filename)
+    """Serve static files from the React build folder."""
+    dist_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'frontend', 'dist')
+    return send_from_directory(dist_dir, filename)
 
 
 @app.route('/health', methods=['GET'])
@@ -210,6 +244,81 @@ def health_check():
         "embeddings_loaded": len(document_embeddings) > 0
     })
 
+# --- AUTH ENDPOINTS ---
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    role = data.get('role', 'client') # Default to client
+
+    if not email or not password:
+        return jsonify({"error": "Email and password are required"}), 400
+
+    hashed_password = generate_password_hash(password)
+
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO users (email, password, role) VALUES (?, ?, ?)", (email, hashed_password, role))
+            conn.commit()
+        return jsonify({"message": "User registered successfully", "role": role}), 201
+    except sqlite3.IntegrityError:
+        return jsonify({"error": "Email already exists"}), 409
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({"error": "Email and password are required"}), 400
+
+    with sqlite3.connect(DB_NAME) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+        user = cursor.fetchone()
+
+    # User indexes: 0:id, 1:email, 2:password, 3:role, 4:created_at
+    if user and check_password_hash(user[2], password):
+        return jsonify({
+            "message": "Login successful",
+            "user": {
+                "id": user[0], 
+                "email": user[1],
+                "role": user[3] if len(user) > 3 else "client"
+            },
+            "token": "mock-jwt-token-xyz-123" 
+        }), 200
+    else:
+        return jsonify({"error": "Invalid email or password"}), 401
+
+@app.route('/profile', methods=['GET'])
+def get_profile():
+    # In a real app, verify the token. Here we mock it based on email query param for demo purposes
+    email = request.args.get('email')
+    if not email:
+        return jsonify({"error": "Unauthorized - Provide email as query param for mock profile demo"}), 401
+    
+    with sqlite3.connect(DB_NAME) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, email, role FROM users WHERE email = ?", (email,))
+        user = cursor.fetchone()
+    
+    if user:
+        return jsonify({
+            "id": user[0],
+            "email": user[1],
+            "role": user[2],
+            "username": user[1].split('@')[0] # Using email prefix as username
+        })
+    return jsonify({"error": "User not found"}), 404
+
+# --- CHATBOT ENDPOINTS ---
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -330,7 +439,7 @@ def regenerate_embeddings():
 load_knowledge_base()
 load_embeddings()
 
-print("🤖 Chatbot initialized successfully!")
+print("Chatbot initialized successfully!")
 
 
 if __name__ == '__main__':
